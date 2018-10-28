@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Word-Guess-Game</title>
+
+  <!--link to jQuery CDN-->
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+
+<!--a tiny bit of CSS styling-->
+
+<style>
+body {
+    text-align: center;
+}
+</style>
+
+<body>
+    <header>
+        <h1>Hangman</h1>
+    </header>
+
+    <!--directions dissapear after a key is pressed-->
+
+    <div id="directions">Press any key to get started!</div>
+
+    <!--create ids to capture values from JS for wins, losses, guesses remaining, and letters already guessed-->
+
+    <div id="wins"></div>
+    <div id="losses"></div>
+    <div id="guesses-remaining"></div>
+    <div id="already-guessed"></div>
+
+  <script type="text/javascript">
+
+    // define variables for JS
+
+    var wins = 0;
+    var losses = 0;
+    var guessesRemaining = 10;
+    var alreadyGuessed;
+
+    //event listening for a key to be pressed
+    //key pressed is captured and compared with letters used in the word to be guessed
+    //variables are updated
+
+    //if word is guessed before guessesRemaining run out, then wins/losses are updated
+
+    //game resets while wins/losses remain
+
+  </script>
+
+</body>
+
+</html>
