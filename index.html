@@ -45,18 +45,18 @@ body {
 
   <script type="text/javascript">
 
+    //define global variables for JS
+
+    var wins = 0;
+    var losses = 0;
+    var guessesRemaining = 10;
+    var alreadyGuessed = "";
+    var currentWord = "";
+    var placeholderArray = [];
+
     //keep the JS from running before the HTML has rendered
 
     $(document).ready(function() {
-
-    //define global variables for JS
-
-        var wins = 0;
-        var losses = 0;
-        var guessesRemaining = 10;
-        var alreadyGuessed = "";
-        var currentWord = "";
-        var placeholderArray = [];
 
         //create array of letters for user to guess
 
@@ -74,30 +74,65 @@ body {
 
         function startGame() {
             alreadyGuessed= "";
+            placeholderArray = [];
             guessesRemaining = 10;
             currentWord = words[Math.floor(words.length * Math.random())];
             console.log(currentWord);
+            for (let i = 0; i < currentWord.length; i++) {
+                placeholderArray.push("_");                
+            }
         }
 
         startGame();
 
         document.onkeyup = function(event) {
             var userGuess = event.key.toLowerCase();
+            console.log(userGuess.match(/[A-Z]/gi));
+            if(event.keyCode>=65 && event.keyCode<=90){
             alreadyGuessed += userGuess;
             guessesRemaining--;
 
-            var answerArray = [];
+            //update current word if player guesses the correct letter
 
-            for (var i = 0; i < currentWord.length; i++) {
-                if (userGuess === currentWord[i]) {
-                    placeholderArray[i] = currentWord[i];
+            for (let i = 0; i < currentWord.length; i++) {
+                console.log(userGuess,currentWord[i]);
+                if(userGuess===currentWord[i]) {
+                    placeholderArray[i]=userGuess;
                 }
                 else {
-                    placeholderArray[i] = "_";
+                    //don't add letter
                 }
             }
 
-            $("#placeholder-array").text(placeholderArray);
+            var placeholderString = placeholderArray.join("");
+
+            if (placeholderString === currentWord && guessesRemaining > 1) {
+                wins++;
+                guessesRemaining = 11
+                alreadyGuessed = "";
+                startGame();
+            }
+            else if (guessesRemaining < 1) {
+                losses++;
+                guessesRemaining = 11;
+                alreadyGuessed = "";
+                startGame();
+            }
+            else {
+                
+            }
+
+            //compare currentWord
+
+            //update wins if player guesses correct team
+
+
+            $("#placeholder-array").empty();
+            for (let i = 0; i < placeholderArray.length; i++) {
+                $()
+                $("#placeholder-array").append(placeholderArray[i]);
+                
+            }
 
             $("#already-guessed").text("Letters already guessed: " + alreadyGuessed);
 
@@ -107,10 +142,6 @@ body {
 
             $("#losses").text("Losses: " + losses)
 
-            if (guessesRemaining <= 1) {
-                losses++;
-                guessesRemaining = 11;
-                alreadyGuessed = "";
             }
         }
 
