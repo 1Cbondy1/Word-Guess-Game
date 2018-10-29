@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Word-Guess-Game</title>
+  <title>NFL Team Guess Game</title>
 
   <!--link to jQuery CDN-->
 
@@ -15,6 +15,7 @@
 <style>
 body {
     text-align: center;
+    line-height: 2;
 }
 </style>
 
@@ -26,6 +27,14 @@ body {
     <!--directions dissapear after a key is pressed-->
 
     <div id="directions">Press any key to get started!</div>
+    <div>Guess the NFL team!</div>
+
+    <!--display current word to guess, letters appear as they are guessed-->
+
+    <div>Current Word:</div>
+    <div id="current-word"></div>
+    <div id="placeholder-array"></div>
+    <div id="answer-array"></div>
 
     <!--create ids to capture values from JS for wins, losses, guesses remaining, and letters already guessed-->
 
@@ -36,20 +45,80 @@ body {
 
   <script type="text/javascript">
 
-    // define variables for JS
+    //keep the JS from running before the HTML has rendered
 
-    var wins = 0;
-    var losses = 0;
-    var guessesRemaining = 10;
-    var alreadyGuessed;
+    $(document).ready(function() {
 
-    //event listening for a key to be pressed
-    //key pressed is captured and compared with letters used in the word to be guessed
-    //variables are updated
+    //define global variables for JS
 
-    //if word is guessed before guessesRemaining run out, then wins/losses are updated
+        var wins = 0;
+        var losses = 0;
+        var guessesRemaining = 10;
+        var alreadyGuessed = "";
+        var currentWord = "";
+        var placeholderArray = [];
 
-    //game resets while wins/losses remain
+        //create array of letters for user to guess
+
+        var letters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "_"];
+
+        //create array of words to be guessed
+
+        var words = ["saints", "eagles", "chargers", "patriots", "cardinals", "texans", "dolphins", "packers", "broncos", "seahawks"];
+
+        //----
+        //----
+
+        //event listening for a key to be pressed
+        //key pressed is captured and compared with letters used in the word to be guessed
+
+        function startGame() {
+            alreadyGuessed= "";
+            guessesRemaining = 10;
+            currentWord = words[Math.floor(words.length * Math.random())];
+            console.log(currentWord);
+        }
+
+        startGame();
+
+        document.onkeyup = function(event) {
+            var userGuess = event.key.toLowerCase();
+            alreadyGuessed += userGuess;
+            guessesRemaining--;
+
+            var answerArray = [];
+
+            for (var i = 0; i < currentWord.length; i++) {
+                if (userGuess === currentWord[i]) {
+                    placeholderArray[i] = currentWord[i];
+                }
+                else {
+                    placeholderArray[i] = "_";
+                }
+            }
+
+            $("#placeholder-array").text(placeholderArray);
+
+            $("#already-guessed").text("Letters already guessed: " + alreadyGuessed);
+
+            $("#guesses-remaining").text("Guesses remaining: " + guessesRemaining);
+
+            $("#wins").text("Wins: " + wins)
+
+            $("#losses").text("Losses: " + losses)
+
+            if (guessesRemaining <= 1) {
+                losses++;
+                guessesRemaining = 11;
+                alreadyGuessed = "";
+            }
+        }
+
+        //if word is guessed before guessesRemaining run out, then wins/losses are updated
+
+        //game resets while wins/losses remain
+
+    });
 
   </script>
 
