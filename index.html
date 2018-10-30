@@ -8,150 +8,36 @@
   <!--link to jQuery CDN-->
 
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+
 </head>
 
-<!--a tiny bit of CSS styling-->
-
-<style>
-body {
-    text-align: center;
-    line-height: 2;
-}
-</style>
 
 <body>
     <header>
-        <h1>Hangman</h1>
+        <h1>Guess the NFL Team!</h1>
     </header>
 
     <!--directions dissapear after a key is pressed-->
 
     <div id="directions">Press any key to get started!</div>
-    <div>Guess the NFL team!</div>
 
     <!--display current word to guess, letters appear as they are guessed-->
-
-    <div>Current Word:</div>
-    <div id="current-word"></div>
+    <div id="current-display"></div>
     <div id="placeholder-array"></div>
     <div id="answer-array"></div>
+    <div id="already-guessed"></div>
+    <div id="guesses-remaining"></div>
 
     <!--create ids to capture values from JS for wins, losses, guesses remaining, and letters already guessed-->
 
+    <br>
+
     <div id="wins"></div>
     <div id="losses"></div>
-    <div id="guesses-remaining"></div>
-    <div id="already-guessed"></div>
 
-  <script type="text/javascript">
-
-    //define global variables for JS
-
-    var wins = 0;
-    var losses = 0;
-    var guessesRemaining = 10;
-    var alreadyGuessed = "";
-    var currentWord = "";
-    var placeholderArray = [];
-
-    //keep the JS from running before the HTML has rendered
-
-    $(document).ready(function() {
-
-        //create array of letters for user to guess
-
-        var letters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "_"];
-
-        //create array of words to be guessed
-
-        var words = ["saints", "eagles", "chargers", "patriots", "cardinals", "texans", "dolphins", "packers", "broncos", "seahawks"];
-
-        //----
-        //----
-
-        //event listening for a key to be pressed
-        //key pressed is captured and compared with letters used in the word to be guessed
-
-        function startGame() {
-            alreadyGuessed= "";
-            placeholderArray = [];
-            guessesRemaining = 10;
-            currentWord = words[Math.floor(words.length * Math.random())];
-            console.log(currentWord);
-            for (let i = 0; i < currentWord.length; i++) {
-                placeholderArray.push("_");                
-            }
-        }
-
-        startGame();
-
-        document.onkeyup = function(event) {
-            var userGuess = event.key.toLowerCase();
-            console.log(userGuess.match(/[A-Z]/gi));
-            if(event.keyCode>=65 && event.keyCode<=90){
-            alreadyGuessed += userGuess;
-            guessesRemaining--;
-
-            //update current word if player guesses the correct letter
-
-            for (let i = 0; i < currentWord.length; i++) {
-                console.log(userGuess,currentWord[i]);
-                if(userGuess===currentWord[i]) {
-                    placeholderArray[i]=userGuess;
-                }
-                else {
-                    //don't add letter
-                }
-            }
-
-            var placeholderString = placeholderArray.join("");
-
-            if (placeholderString === currentWord && guessesRemaining > 1) {
-                wins++;
-                guessesRemaining = 11
-                alreadyGuessed = "";
-                startGame();
-            }
-            else if (guessesRemaining < 1) {
-                losses++;
-                guessesRemaining = 11;
-                alreadyGuessed = "";
-                startGame();
-            }
-            else {
-                
-            }
-
-            //compare currentWord
-
-            //update wins if player guesses correct team
-
-
-            $("#placeholder-array").empty();
-            for (let i = 0; i < placeholderArray.length; i++) {
-                $()
-                $("#placeholder-array").append(placeholderArray[i]);
-                
-            }
-
-            $("#already-guessed").text("Letters already guessed: " + alreadyGuessed);
-
-            $("#guesses-remaining").text("Guesses remaining: " + guessesRemaining);
-
-            $("#wins").text("Wins: " + wins)
-
-            $("#losses").text("Losses: " + losses)
-
-            }
-        }
-
-        //if word is guessed before guessesRemaining run out, then wins/losses are updated
-
-        //game resets while wins/losses remain
-
-    });
-
-  </script>
+    <script type="text/javascript" src="assets/javascript/game.js"></script>
 
 </body>
 
