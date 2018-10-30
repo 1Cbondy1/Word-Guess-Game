@@ -3,7 +3,7 @@
 You can find it [here](https://1cbondy1.github.io/Word-Guess-Game/)
 
 - Press any key to begin.
-- You have 15 tries to guess which NFL team the game is thinking of.
+- You have 15 tries to spell out which NFL team the game is thinking of.
 - Your wins and losses will be tracked, as well as how many guesses you have left and which letters you have already tried.
 
 Good luck!
